@@ -56,43 +56,47 @@ class Maze {
 	}
 
 	move(loc){
-		var next = this.getRandomDirection(loc);
+		var next, old, direction='';
 
-		if(this.visited==this.height*this.width)
-			return this.maze; //we're done
-		if(!next)
-			return this.move(this.maze[loc[1]][loc[0]].back)
-		else{
-				var old = loc, direction = '';
+		while(this.visited<=this.height*this.width){
+			next = this.getRandomDirection(loc);
+			if(!next){
+				loc = this.maze[loc[1]][loc[0]].back;
+				continue;
+			}
+			else{
+					old = loc, direction = '';
 
-				this.maze[old[1]][old[0]].setFalse(next); //remove wall from next direction
+					this.maze[old[1]][old[0]].setFalse(next); //remove wall from next direction
 
-				if(next=="right"){
-					loc = [ old[0]+1, old[1] ];
-					direction = 'left';
+					if(next=="right"){
+						loc = [ old[0]+1, old[1] ];
+						direction = 'left';
+					}
+					else if(next=="left"){
+						loc = [ old[0]-1, old[1] ];
+						direction = 'right';
+					}
+					else if(next=="up"){
+						loc = [ old[0], old[1]-1 ];
+						direction = 'down';
+					}
+					else if(next=="down"){
+						loc = [ old[0], old[1]+1 ];
+						direction = 'up';
+					}
+					else{
+						console.log(next, 'error: not a direction');
+						continue;
+					}
+					this.visited++;
+					this.maze[loc[1]][loc[0]].visited=true; //set as visited
+					this.maze[loc[1]][loc[0]][direction] = false; //unblock
+					this.maze[loc[1]][loc[0]].back = old; //save a way to go back
 				}
-				else if(next=="left"){
-					loc = [ old[0]-1, old[1] ];
-					direction = 'right';
-				}
-				else if(next=="up"){
-					loc = [ old[0], old[1]-1 ];
-					direction = 'down';
-				}
-				else if(next=="down"){
-					loc = [ old[0], old[1]+1 ];
-					direction = 'up';
-				}
-				else{
-					console.log(next, 'error: not a direction');
-					return;
-				}
-				this.visited++;
-				this.maze[loc[1]][loc[0]].visited=true; //set as visited
-				this.maze[loc[1]][loc[0]][direction] = false; //unblock
-				this.maze[loc[1]][loc[0]].back = old; //save a way to go back
-				return this.move(loc); //recurse
+
 		}
+		return this.maze; 	//we're done
 	}
 }
 
@@ -111,8 +115,5 @@ function test(width, height){
 	tester.move([0,0]);
 	console.timeEnd('create');
 }
-
-test(20,20);
-test(40,40);
-test(50,50);
-test(60,60);
+test(40,40)
+test(100,100);
