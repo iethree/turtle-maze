@@ -97,22 +97,30 @@ function create ()
 			walls.create(x+tile/2, y , mazewall.v);
 		};
 
-		drawMaze(Math.floor(screen.right/tile), Math.floor(screen.bottom/tile), offset, tile, walls);
+		var tileWidth = Math.floor(screen.right/tile), tileHeight = Math.floor(screen.bottom/tile);
+		drawMaze(tileWidth, tileHeight, offset, tile, walls);
 
 		var clicker = this.add.sprite(-100, -100, 'carrot').setScale(scale);
-
+		var score  = Number(localStorage.getItem('score')) || 0;
 		//create turtle
 		var turtle = this.physics.add.sprite(tile/2+offset.x, tile/2+offset.y, 'turtle').setScale(scale);
 		turtle.setSize(this.width*scale, this.height*scale, 0, 0);
 		this.physics.add.collider(turtle, walls, dontMove);
 
-
-		this.physics.add.collider(turtle, treasure, ()=>{
-			var victory = this.add.sprite(screen.center.x, screen.center.y-200, 'victory')
+		var win = function(){
+			var victory = this.add.sprite(screen.center.x, screen.top+200, 'victory')
 			if(screen.right<victory.width)
 				victory.setScale(1/(victory.width/screen.right));
-			this.textButton(screen.center.x, screen.center.y, "New Game", ()=>{location.reload()}, {});
-		});
+			var scoreBox = this.add.graphics();
+			scoreBox.fillStyle(0xFFFFFF, 0.7);
+			scoreBox.fillRoundedRect(screen.center.x-100, screen.center.y-20, 200, 40, 8);
+			this.add.text(screen.center.x, screen.center.y, "Score: "+ score + " + "+Math.round(tileWidth*tileHeight/10), { font: "20px Courier New", fill: "#000"}).setOrigin(0.5);
+			this.textButton(screen.center.x, screen.bottom-100, "New Game", ()=>{location.reload()}, {});
+			localStorage.setItem('score', score+Math.round(tileWidth*tileHeight/10));
+		}.bind(this);
+
+		this.physics.add.collider(turtle, treasure, win);
+
 
 		//this.physics.add.collider(turtle, clicker, ()=>{clicker.disableBody(true,true)});
 

@@ -115,5 +115,5 @@ function test(width, height){
 	tester.move([0,0]);
 	console.timeEnd('create');
 }
-test(40,40)
-test(100,100);
+test(40,40);
+test(500,500);
