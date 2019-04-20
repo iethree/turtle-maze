@@ -1,0 +1,23 @@
+{
+  "name": "turtle-maze",
+  "version": "1.0.0",
+  "description": "This is a maze-building algorithm that uses Phaser.js to draw a maze and help a turtle find his treasure.",
+  "main": "turtle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iethree/turtle-maze.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iethree/turtle-maze/issues"
+  },
+  "homepage": "https://github.com/iethree/turtle-maze#readme",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "phaser": "^3.16.2"
+  }
+}

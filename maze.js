@@ -15,7 +15,7 @@ class Node{
 	}
 }
 
-class Maze {
+export class Maze {
 	constructor(width, height){
 		this.maze = [];
 		this.width = width;
@@ -115,5 +115,5 @@ function test(width, height){
 	tester.move([0,0]);
 	console.timeEnd('create');
 }
-test(40,40);
-test(500,500);
+// test(40,40);
+// test(500,500);

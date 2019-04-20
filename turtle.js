@@ -1,4 +1,8 @@
 //turtle game
+import 'phaser';
+//import 'node_modules/phaser/dist/phaser.min.js';
+import {myScene} from './myScene.js';
+import {Maze} from './maze.js';
 
 const screen = {
 	center:{
@@ -32,13 +36,10 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-
 	this.load.spritesheet('turtle',
 		'art/turtlemin.png',
 		{ frameWidth: 26, frameHeight: 34 }
 	);
-
-	//this.load.image('mazetiles', 'art/mazetiles.png');
 
 	this.load.image('mazetile64', 'art/grass64.png');
 	this.load.image('mazewall64h', 'art/wall64h.png');
@@ -53,8 +54,8 @@ function preload ()
 	this.load.image('carrot', 'art/carrot.png');
 	this.load.image('victory', 'art/victory.png');
 
-	buttonColors = ['blue', 'green', 'grey', 'yellow', 'red'];
-	for (color of buttonColors){
+	var buttonColors = ['blue', 'green', 'grey', 'yellow', 'red'];
+	for (let color of buttonColors){
 		this.load.atlasXML(color+'_button', 'art/buttons/'+color+'Sheet.png', 'art/buttons/'+color+'Sheet.xml');
 	}
 }
@@ -132,7 +133,7 @@ function create ()
 
 		setTimeout(()=>{this.input.on('pointerdown', function(pointer, objects){
 
-			loc={
+			var loc={
 				x: game.input.activePointer.downX,
 				y: game.input.activePointer.downY
 			};
@@ -150,7 +151,7 @@ function create ()
 
 			[loc.x, loc.y] = getNearestTile(loc.x, loc.y);
 
-			dist = {
+			var dist = {
 				x: loc.x-turtle.x,
 				y: loc.y-turtle.y
 			};
@@ -190,7 +191,8 @@ function create ()
 			turtle.anims.stop();
 			turtle.setVelocityX(0);
 			turtle.setVelocityY(0);
-			//[turtle.x, turtle.y] = getNearestTile(turtle.x, turtle.y);
+			[turtle.x, turtle.y] = getNearestTile(turtle.x, turtle.y);
+			//mover(turtle, getNearestTile(turtle.x, turtle.y));
 			clearTimeout(moving);
 			[clicker.x, clicker.y] = [-100, -100];
 		}
@@ -201,7 +203,6 @@ function create ()
 			frameRate: 10,
 			repeat: -1,
 		});
-
 	}
 
 	var easy = ()=>{
@@ -223,7 +224,6 @@ function create ()
 	var title = this.add.text(screen.center.x, screen.center.y-75, "Turtle Maze", style).setOrigin(0.5);
 	var easyButton = this.textButton(screen.center.x, screen.center.y-25, "Easy", easy, {color: 'green'});
 	var hardButton = this.textButton(screen.center.x, screen.center.y+25, "Hard", hard, {color: 'blue'});
-
 }
 
 function update ()
@@ -231,7 +231,6 @@ function update ()
 
 function drawMaze(width, height, offset, tile, walls){
 	var maze = new Maze(width, height).move([0,0]);
-	console.log(maze);
 
 	var center = {x:offset.x-tile/2, y:offset.y-tile/2};
 
