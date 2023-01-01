@@ -18,6 +18,6 @@
   "homepage": "https://github.com/iethree/turtle-maze#readme",
   "dependencies": {
     "lodash": "^4.17.11",
-    "phaser": "^3.16.2"
+    "phaser": "^3.55.2"
   }
 }
